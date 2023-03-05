@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.Autos;
+import frc.robot.commands.ChangeDriveMode;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.drivetotag;
 import frc.robot.commands.locateCube;
@@ -36,19 +37,26 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
-  private final GyroSubsystem m_GyroSubsystem = new GyroSubsystem();
+  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem();
 
   private final Command m_driveToTag = 
   new drivetotag(m_drivetrainSubsystem, m_visionSubsystem ); 
 
-  private final Command m_drive5Seconds = 
-  Autos.drive5Seconds(m_drivetrainSubsystem);
+  private final Command m_driveForSeconds = 
+  Autos.driveForSeconds(m_drivetrainSubsystem, m_gyroSubsystem);
+
+  private final Command m_driveForSecondsTwo = 
+  Autos.driveForSecondsTwo(m_drivetrainSubsystem, m_gyroSubsystem);
+
+  private final Command m_driveForSecondsThree = 
+  Autos.driveForSecondsThree(m_drivetrainSubsystem, m_gyroSubsystem);
+  
 
   private final Command m_turn = 
-    Autos.turn(m_drivetrainSubsystem);
+  Autos.turn(m_drivetrainSubsystem, m_gyroSubsystem);
 
   private final Command m_gyro =
-  Autos.gyro(m_GyroSubsystem, m_drivetrainSubsystem);
+  Autos.gyro(m_gyroSubsystem, m_drivetrainSubsystem);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController m_driverController =
@@ -62,14 +70,16 @@ public class RobotContainer {
 
     //Moves Robot Using Joysticks
     m_drivetrainSubsystem.setDefaultCommand(new RunCommand(() ->
-     m_drivetrainSubsystem.setRaw(m_driverController.getLeftY(), m_driverController.getLeftX()), m_drivetrainSubsystem));
+     m_drivetrainSubsystem.teleopDrive(m_driverController.getLeftY(), m_driverController.getLeftX()), m_drivetrainSubsystem));
     configureBindings();
 
 
-    m_chooser.setDefaultOption("Drive for 8 seconds", m_drive5Seconds);
+    m_chooser.setDefaultOption("Auto Set 1", m_driveForSeconds);
+    m_chooser.setDefaultOption("Auto Set 2", m_driveForSecondsTwo);
+    m_chooser.setDefaultOption("Auto Set 3", m_driveForSecondsThree);
     m_chooser.addOption("Drive to tag", m_driveToTag);
-    m_chooser.addOption("turn", m_turn);
-    m_chooser.addOption("gyro", m_gyro);
+    m_chooser.addOption("Turn", m_turn);
+    m_chooser.addOption("Gyro", m_gyro);
 
     SmartDashboard.putData(m_chooser);
   }
@@ -85,9 +95,9 @@ public class RobotContainer {
    */
   private void configureBindings() {
     //Spins Motor if April Tags are Recognized for 20 Ticks
-    new JoystickButton(m_driverController, XboxController.Button.kA.value).onTrue(new targetFinding(m_drivetrainSubsystem, m_visionSubsystem));
-    new JoystickButton(m_driverController, XboxController.Button.kB.value).onTrue(new drivetotag(m_drivetrainSubsystem, m_visionSubsystem));
-    new JoystickButton(m_driverController, XboxController.Button.kY.value).onTrue(new locateCube(m_drivetrainSubsystem, m_visionSubsystem));
+    new JoystickButton(m_driverController, XboxController.Button.kY.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "max"));
+    new JoystickButton(m_driverController, XboxController.Button.kX.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "normal"));
+    new JoystickButton(m_driverController, XboxController.Button.kA.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "creep speed (slow)"));
   }
 
   /**

@@ -18,12 +18,13 @@ public class Balance extends CommandBase {
   private double roll;
   private double speed;
 
+
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Balance(GyroSubsystem subsystem, DrivetrainSubsystem drivetrainSubsystem) {
+  public Balance (GyroSubsystem subsystem, DrivetrainSubsystem drivetrainSubsystem) {
     m_gyro = subsystem;
     m_DrivetrainSubsystem = drivetrainSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -38,11 +39,12 @@ public class Balance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    roll= m_gyro.getRoll();
-    speed = 0.03*roll;
 
-    if(Math.abs(roll) > 5) {
-      m_DrivetrainSubsystem.setRaw(-speed, 0);
+    if(m_gyro.getRoll() > 4) {
+      m_DrivetrainSubsystem.setRaw(-0.43, 0);
+    }
+    else if(m_gyro.getRoll() < -4) {
+      m_DrivetrainSubsystem.setRaw(0.43, 0);
     }
     else {
       m_DrivetrainSubsystem.setRaw(0, 0);

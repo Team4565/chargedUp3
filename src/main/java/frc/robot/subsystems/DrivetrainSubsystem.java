@@ -4,18 +4,9 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxRelativeEncoder;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DrivetrainConstants;
 
 public class DrivetrainSubsystem extends SubsystemBase {
   /** Creates a new DrivetrainSubsystem. */
@@ -29,7 +20,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private final WPI_VictorSPX leftFollower;
   private final WPI_VictorSPX rightFollower;
 
-
+  private String driveMode;
 
   public DrivetrainSubsystem() {
     leftLead = new WPI_VictorSPX(8);
@@ -45,13 +36,29 @@ public class DrivetrainSubsystem extends SubsystemBase {
     
     rightFollower.follow(rightLead);
 
-    //invert one of the leads :)
-
     diffDrive = new DifferentialDrive(leftLead,rightLead);
+
+    driveMode = "normal";
   }
 
+  public void updateDriveMode(String mode) {
+    driveMode = mode;
+  }
 
-   
+  public void teleopDrive(double driveValue, double turnValue) {
+    switch(driveMode) {
+      case "max":
+        diffDrive.arcadeDrive(driveValue, turnValue);
+      break;
+      case "normal":
+        diffDrive.arcadeDrive(driveValue * 0.70 , turnValue * 0.70);
+      break;
+      case "creep speed (slow)":
+        diffDrive.arcadeDrive(driveValue * 0.40 , turnValue * 0.55);
+      break;
+    }
+  }
+
   public void setRaw(double driveValue, double turnValue){
     diffDrive.arcadeDrive(driveValue, turnValue);
   }

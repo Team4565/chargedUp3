@@ -17,22 +17,52 @@ public final class Autos {
     return Commands.sequence(subsystem.exampleMethodCommand(), new ExampleCommand(subsystem));
   }
 
-  public static CommandBase drive5Seconds(DrivetrainSubsystem drivetrain) {
-    CommandBase commandGroup = new SequentialCommandGroup();
-    commandGroup.andThen(new DriveForTime(drivetrain, 8, -0.5));
-    //commandGroup.andThen(new TurnForTime(drivetrain, 1, -0.5));
-    return commandGroup;
+  public static CommandBase driveForSeconds(DrivetrainSubsystem drivetrain, GyroSubsystem gyro) {
+    SequentialCommandGroup group = new SequentialCommandGroup(
+      new DriveForTime(drivetrain, 5.3, -0.5),
+      new TurnForAngle(gyro, drivetrain, -79, -0.5),
+      new DriveForTime(drivetrain, 2.5, -0.5),
+      new TurnForAngle(gyro, drivetrain, -77, -0.5),
+      new DriveForTime(drivetrain, 1.4, -0.70),
+      new Balance(gyro, drivetrain)
+    );
+    return group;
+  }  
+
+  public static CommandBase driveForSecondsTwo(DrivetrainSubsystem drivetrain, GyroSubsystem gyro) {
+    SequentialCommandGroup group = new SequentialCommandGroup(
+      new DriveForTime(drivetrain, 5.3, -0.5),
+      new TurnForAngle(gyro, drivetrain, 70, 0.50),
+      new DriveForTime(drivetrain, 2, -0.5),
+      new TurnForAngle(gyro, drivetrain, 67, 0.50),
+      new DriveForTime(drivetrain, 1.4, -0.70),
+      new Balance(gyro, drivetrain)
+    );
+    return group;
   }
+
+  public static CommandBase driveForSecondsThree(DrivetrainSubsystem drivetrain, GyroSubsystem gyro) {
+    SequentialCommandGroup group = new SequentialCommandGroup(
+      new DriveForTime(drivetrain, 2.35, -0.66),
+      new DriveForTime(drivetrain, 2, 0.66),
+      new Balance(gyro, drivetrain)
+    );
+    return group;
+  }  
 
   public static CommandBase gyro(GyroSubsystem m_gyro, DrivetrainSubsystem drivetrain) {
-    return Commands.sequence(new Balance(m_gyro, drivetrain)); 
+    SequentialCommandGroup group = new SequentialCommandGroup(
+      new DriveForTime(drivetrain, 1.3, -0.77),
+      new Balance(m_gyro, drivetrain)
+    );
+    return group; 
   }
 
-  public static CommandBase turn(DrivetrainSubsystem drivetrain) {
-    return Commands.sequence(new TurnForTime(drivetrain, 1, -0.5));
+  public static CommandBase turn(DrivetrainSubsystem drivetrain, GyroSubsystem gyro) {
+    return Commands.sequence(new TurnForAngle(gyro, drivetrain, 70, 0.5));
   }
 
-  private Autos() {
+  private Autos () {
     throw new UnsupportedOperationException("This is a utility class!");
   }
 }

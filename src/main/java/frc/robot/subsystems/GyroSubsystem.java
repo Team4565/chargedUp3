@@ -17,7 +17,7 @@ public class GyroSubsystem extends SubsystemBase {
   }
 
   public double getAngle(){
-    return m_gyro.getAngle();
+    return m_gyro.getAngle() + 45;
   }
 
   public double getPitch(){
@@ -25,7 +25,7 @@ public class GyroSubsystem extends SubsystemBase {
   }
 
   public double getRoll() {
-    return m_gyro.getRoll();
+    return m_gyro.getRoll() - 2;
   }
 
   public void resetYaw(){
@@ -36,5 +36,6 @@ public class GyroSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("roll angle", getRoll());
+    SmartDashboard.putNumber("yaw angle", getAngle());
   }
 }

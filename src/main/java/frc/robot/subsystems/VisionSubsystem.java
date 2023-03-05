@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.subsystems; 
 
 import java.util.List;
 
@@ -52,7 +52,7 @@ public class VisionSubsystem extends SubsystemBase {
   }
 
   public boolean seeTarget(){
-    if(results .hasTargets() == true){
+    if(results .hasTargets() == true) {
       target = results.getBestTarget();
       yaw = target.getYaw();
       pitch = target.getPitch();
@@ -64,13 +64,13 @@ public class VisionSubsystem extends SubsystemBase {
     return results.hasTargets();
   }
 
-  public int getBestFiducial(){
+  public int getBestFiducial() {
     return seeTarget() == true ? results.getBestTarget().getFiducialId() : 0;
   }
 
 
   
-  public Transform3d distanceFinder(){
+  public Transform3d distanceFinder() {
 Transform3d m_default = new Transform3d();
 return seeTarget() == true ?  results.getBestTarget().getBestCameraToTarget() : m_default ; 
   }
