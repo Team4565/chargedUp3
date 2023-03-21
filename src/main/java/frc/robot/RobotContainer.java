@@ -37,10 +37,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
-  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem();
-
-  private final Command m_driveToTag = 
-  new drivetotag(m_drivetrainSubsystem, m_visionSubsystem ); 
+  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(); 
 
   private final Command m_driveForSeconds = 
   Autos.driveForSeconds(m_drivetrainSubsystem, m_gyroSubsystem);
@@ -50,13 +47,32 @@ public class RobotContainer {
 
   private final Command m_driveForSecondsThree = 
   Autos.driveForSecondsThree(m_drivetrainSubsystem, m_gyroSubsystem);
-  
+
+  private final Command m_driveForSecondsFour = 
+  Autos.driveForSecondsFour(m_drivetrainSubsystem, m_gyroSubsystem);
+
+  private final Command m_driveForSecondsFive = 
+  Autos.driveForSecondsFive(m_drivetrainSubsystem, m_gyroSubsystem);
+
+  private final Command m_driveForSecondsSix = 
+  Autos.driveForSecondsSix(m_drivetrainSubsystem, m_gyroSubsystem);
+
+  private final Command m_driveForSecondsSeven = 
+  Autos.driveForSecondsSeven(m_drivetrainSubsystem);
+
+  private final Command m_driveForwardBackwardBalance = 
+  Autos.forwardsBackwardsBalance(m_drivetrainSubsystem, m_gyroSubsystem);
+
+  private final Command m_driveToTag = 
+  new drivetotag(m_drivetrainSubsystem, m_visionSubsystem );
 
   private final Command m_turn = 
   Autos.turn(m_drivetrainSubsystem, m_gyroSubsystem);
 
   private final Command m_gyro =
   Autos.gyro(m_gyroSubsystem, m_drivetrainSubsystem);
+
+
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController m_driverController =
@@ -74,13 +90,15 @@ public class RobotContainer {
     configureBindings();
 
 
-    m_chooser.setDefaultOption("Auto Set 1", m_driveForSeconds);
-    m_chooser.setDefaultOption("Auto Set 2", m_driveForSecondsTwo);
-    m_chooser.setDefaultOption("Auto Set 3", m_driveForSecondsThree);
-    m_chooser.addOption("Drive to tag", m_driveToTag);
-    m_chooser.addOption("Turn", m_turn);
-    m_chooser.addOption("Gyro", m_gyro);
-
+    m_chooser.addOption("Auto Set 1 (Forward then left) - Charging Station ", m_driveForSeconds);
+    m_chooser.addOption("Auto Set 2 (Forward then right) - Charging Station", m_driveForSecondsTwo);
+    m_chooser.addOption("Auto Set 3 (Forward then back) - Charging Station", m_driveForSecondsThree);
+    m_chooser.addOption("Auto Set 4 (Same as Set 1 but forwards and backwards at start) - Charging Station", m_driveForSecondsFour);
+    m_chooser.addOption("Auto Set 5 (Straight then back) - Not used for Charging Station", m_driveForSecondsFive);
+    m_chooser.addOption("Auto Set 6 (Backwards then left) - Charging Station", m_driveForSecondsSix);
+    m_chooser.addOption("Auto Set 7 (Forward then back ) - Charging Station (Newest, not tested yet)", m_driveForwardBackwardBalance);
+    m_chooser.addOption("Auto Set 8 (Backwards then forward - Scoring + Mobility", m_driveForSecondsSeven);
+    m_chooser.setDefaultOption("None", m_gyro);
     SmartDashboard.putData(m_chooser);
   }
 
@@ -96,6 +114,7 @@ public class RobotContainer {
   private void configureBindings() {
     //Spins Motor if April Tags are Recognized for 20 Ticks
     new JoystickButton(m_driverController, XboxController.Button.kY.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "max"));
+    new JoystickButton(m_driverController, XboxController.Button.kB.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "fast"));
     new JoystickButton(m_driverController, XboxController.Button.kX.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "normal"));
     new JoystickButton(m_driverController, XboxController.Button.kA.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "creep speed (slow)"));
   }
