@@ -30,8 +30,8 @@ public class Balance extends CommandBase {
     m_DrivetrainSubsystem = drivetrainSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem, drivetrainSubsystem);
-    balancePID = new PIDController(.1, 0, 0);
-    balancePID.setSetpoint(0);
+    // balancePID = new PIDController(.1, 0, 0);
+    // balancePID.setSetpoint(0);
     // balancePID.setTolerance(0);
     
   }
@@ -44,17 +44,19 @@ public class Balance extends CommandBase {
   @Override
   public void execute() {
 
-    // if(m_gyro.getRoll() > 2.5) {
-    //   m_DrivetrainSubsystem.setRaw(-0.43, 0);
-    // }
-    // else if(m_gyro.getRoll() < -2.5) {
-    //   m_DrivetrainSubsystem.setRaw(0.43, 0);
-    // }
-    // else {
-    //   m_DrivetrainSubsystem.setRaw(0, 0);
-    // }
+    if(m_gyro.getRoll() > 2.25) {
+        m_DrivetrainSubsystem.setRaw(-0.43, 0);
+    }
 
-    m_DrivetrainSubsystem.setRaw(balancePID.calculate(m_gyro.getRoll()), 0);
+    else if(m_gyro.getRoll() < -2.25) {
+        m_DrivetrainSubsystem.setRaw(0.43, 0);
+    }
+
+    else {
+        m_DrivetrainSubsystem.setRaw(0, 0);
+    }
+
+    //m_DrivetrainSubsystem.setRaw(balancePID.calculate(m_gyro.getRoll()), 0);
   
 
 
@@ -62,7 +64,9 @@ public class Balance extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    
+  }
 
   // Returns true when the command should end.
   @Override

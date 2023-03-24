@@ -60,11 +60,14 @@ public class RobotContainer {
   private final Command m_driveForSecondsSeven = 
   Autos.driveForSecondsSeven(m_drivetrainSubsystem);
 
-  private final Command m_driveForwardBackwardBalance = 
-  Autos.forwardsBackwardsBalance(m_drivetrainSubsystem, m_gyroSubsystem);
+  private final Command m_driveForSecondsEight = 
+  Autos.driveForSecondsSeven(m_drivetrainSubsystem);
+
+  // private final Command m_driveForwardBackwardBalance = 
+  // Autos.forwardsBackwardsBalance(m_drivetrainSubsystem, m_gyroSubsystem);
 
   private final Command m_driveToTag = 
-  new drivetotag(m_drivetrainSubsystem, m_visionSubsystem );
+  new drivetotag(m_drivetrainSubsystem, m_visionSubsystem);
 
   private final Command m_turn = 
   Autos.turn(m_drivetrainSubsystem, m_gyroSubsystem);
@@ -90,14 +93,14 @@ public class RobotContainer {
     configureBindings();
 
 
-    m_chooser.addOption("Auto Set 1 (Forward then left) - Charging Station ", m_driveForSeconds);
-    m_chooser.addOption("Auto Set 2 (Forward then right) - Charging Station", m_driveForSecondsTwo);
-    m_chooser.addOption("Auto Set 3 (Forward then back) - Charging Station", m_driveForSecondsThree);
-    m_chooser.addOption("Auto Set 4 (Same as Set 1 but forwards and backwards at start) - Charging Station", m_driveForSecondsFour);
-    m_chooser.addOption("Auto Set 5 (Straight then back) - Not used for Charging Station", m_driveForSecondsFive);
-    m_chooser.addOption("Auto Set 6 (Backwards then left) - Charging Station", m_driveForSecondsSix);
-    m_chooser.addOption("Auto Set 7 (Forward then back ) - Charging Station (Newest, not tested yet)", m_driveForwardBackwardBalance);
-    m_chooser.addOption("Auto Set 8 (Backwards then forward - Scoring + Mobility", m_driveForSecondsSeven);
+    m_chooser.addOption("Auto Set 1 (Forwards then left) - Charging Station + Mobility", m_driveForSeconds);
+    m_chooser.addOption("Auto Set 2 (Forwards then right) - Charging Station + Mobility", m_driveForSecondsTwo);
+    m_chooser.addOption("Auto Set 3 (Forwards then back) - Charging Station + Mobility", m_driveForSecondsThree);
+    m_chooser.addOption("Auto Set 4 (Same as Set 1) - Charging Station + Mobility + Scoring", m_driveForSecondsFour);
+    m_chooser.addOption("Auto Set 5 (Same as Set 2) - Charging Station + Mobility + Scoring", m_driveForSecondsFive);
+    m_chooser.addOption("Auto Set 6 (Same as Set 3) - Charging Station + Mobility + Scoring", m_driveForSecondsSix);
+    m_chooser.addOption("Auto Set 7 (Backwards then forward) - Scoring + Mobility", m_driveForSecondsSeven);
+    m_chooser.addOption("Auto Set 8 (Forwards) - Mobility", m_driveForSecondsEight);
     m_chooser.setDefaultOption("None", m_gyro);
     SmartDashboard.putData(m_chooser);
   }
@@ -118,6 +121,14 @@ public class RobotContainer {
     new JoystickButton(m_driverController, XboxController.Button.kX.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "normal"));
     new JoystickButton(m_driverController, XboxController.Button.kA.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "creep speed (slow)"));
   }
+
+  /* 
+  creep speed is button 1 
+  normal is button 3 
+  fast is button 2 
+  max is button 4 
+  FOR THE NEWEST CONTROLLER
+  */
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

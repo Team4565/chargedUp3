@@ -52,15 +52,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
       break;
 
       case "fast":
-        diffDrive.arcadeDrive(driveValue * 0.75, turnValue * 0.80);
+        diffDrive.arcadeDrive(driveValue * 0.80, turnValue * 0.80);
       break;
 
       case "normal":
-        diffDrive.arcadeDrive(driveValue * 0.60, turnValue * 0.65);
+        diffDrive.arcadeDrive(driveValue * 0.70, turnValue * 0.70);
       break;
 
       case "creep speed (slow)":
-        diffDrive.arcadeDrive(driveValue * 0.45 , turnValue * 0.50);
+        diffDrive.arcadeDrive(driveValue * 0.60 , turnValue * 0.60);
       break;
     }
   }

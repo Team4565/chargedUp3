@@ -25,7 +25,7 @@ public class GyroSubsystem extends SubsystemBase {
   }
 
   public double getRoll() {
-    return m_gyro.getRoll() - 2;
+    return m_gyro.getRoll() - 1.4;
   }
 
   public void resetYaw(){
