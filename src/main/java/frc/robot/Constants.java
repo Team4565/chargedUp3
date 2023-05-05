@@ -17,8 +17,10 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
   public static class DrivetrainConstants{
-    public static final int[] kDrivetrainCANIDs = new int[] {2,3,4,5};
-
+    public static final int leftFrontCANID= 8;
+    public static final int leftBackCANID = 7;
+    public static final int rightFrontCANID = 6;
+    public static final int rightBackCANID = 9;
     
   }
   public static class VisionConstants {

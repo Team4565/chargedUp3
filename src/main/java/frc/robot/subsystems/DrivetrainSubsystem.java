@@ -4,9 +4,12 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Encoder;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+// import edu.wpi.first.wpilibj.examples.ramsetecommand.Constants.DriveConstants;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class DrivetrainSubsystem extends SubsystemBase {
   /** Creates a new DrivetrainSubsystem. */
@@ -20,9 +23,30 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private final WPI_VictorSPX leftFollower;
   private final WPI_VictorSPX rightFollower;
 
+
+
   private String driveMode;
 
+  //private final Encoder m_leftEncoder =
+  //new Encoder(
+    //  DriveConstants.kLeftEncoderPorts[1],
+      //DriveConstants.kLeftEncoderPorts[2],
+      //DriveConstants.kLeftEncoderReversed);
+
+// The right-side drive encoder
+  //private final Encoder m_rightEncoder =
+  //new Encoder(
+    //  DriveConstants.kRightEncoderPorts[0],
+      //DriveConstants.kRightEncoderPorts[1],
+      //DriveConstants.kRightEncoderReversed);
+
+  WPI_VictorSPX leftLeader = new WPI_VictorSPX(Constants.DrivetrainConstants.leftFrontCANID);
+  WPI_VictorSPX leftFollow = new WPI_VictorSPX(Constants.DrivetrainConstants.leftBackCANID);
+  WPI_VictorSPX rightLeader = new WPI_VictorSPX(Constants.DrivetrainConstants.rightFrontCANID);
+  WPI_VictorSPX rightFollow = new WPI_VictorSPX(Constants.DrivetrainConstants.rightBackCANID);
+
   public DrivetrainSubsystem() {
+
     leftLead = new WPI_VictorSPX(8);
     rightLead = new WPI_VictorSPX(6);
     leftFollower = new WPI_VictorSPX(7);
@@ -30,6 +54,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     leftLead.setInverted(true);
     leftFollower.setInverted(true);
+    
 
     leftFollower.follow(leftLead);
 
@@ -63,6 +88,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         diffDrive.arcadeDrive(driveValue * 0.60 , turnValue * 0.60);
       break;
     }
+
   }
 
   public void setRaw(double driveValue, double turnValue){

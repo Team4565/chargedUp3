@@ -61,8 +61,17 @@ public class RobotContainer {
   Autos.driveForSecondsSeven(m_drivetrainSubsystem);
 
   private final Command m_driveForSecondsEight = 
-  Autos.driveForSecondsSeven(m_drivetrainSubsystem);
+  Autos.driveForSecondsEight(m_drivetrainSubsystem);
 
+  private final Command m_driveForSecondsNine = 
+  Autos.driveForSecondsNine(m_drivetrainSubsystem);
+
+  private final Command m_driveForSecondsTen = 
+  Autos.driveForSecondsTen(m_drivetrainSubsystem, m_gyroSubsystem);
+
+  private final Command m_driveForSecondsEleven = 
+  Autos.driveForSecondsEleven(m_drivetrainSubsystem, m_gyroSubsystem);
+  
   // private final Command m_driveForwardBackwardBalance = 
   // Autos.forwardsBackwardsBalance(m_drivetrainSubsystem, m_gyroSubsystem);
 
@@ -101,6 +110,9 @@ public class RobotContainer {
     m_chooser.addOption("Auto Set 6 (Same as Set 3) - Charging Station + Mobility + Scoring", m_driveForSecondsSix);
     m_chooser.addOption("Auto Set 7 (Backwards then forward) - Scoring + Mobility", m_driveForSecondsSeven);
     m_chooser.addOption("Auto Set 8 (Forwards) - Mobility", m_driveForSecondsEight);
+    m_chooser.addOption("Auto Set 9 (Backwards) - Scoring", m_driveForSecondsNine);
+    m_chooser.addOption("Auto Set 10 (Same as Set 3 but w/weight) - Charging Station + Mobility + Scoring", m_driveForSecondsTen);
+    m_chooser.addOption("Auto Set 11 (Same as Set 1 but w/weight) - Charging Station + Mobility", m_driveForSecondsEleven);
     m_chooser.setDefaultOption("None", m_gyro);
     SmartDashboard.putData(m_chooser);
   }

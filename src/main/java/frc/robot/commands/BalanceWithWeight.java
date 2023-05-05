@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class Balance extends CommandBase {
+public class BalanceWithWeight extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private final GyroSubsystem m_gyro;
@@ -25,7 +25,7 @@ public class Balance extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Balance (GyroSubsystem subsystem, DrivetrainSubsystem drivetrainSubsystem) {
+  public BalanceWithWeight (GyroSubsystem subsystem, DrivetrainSubsystem drivetrainSubsystem) {
     m_gyro = subsystem;
     m_DrivetrainSubsystem = drivetrainSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -45,16 +45,16 @@ public class Balance extends CommandBase {
   public void execute() {
 
 
-    if(m_gyro.getRoll() > 2.3) {
-      m_DrivetrainSubsystem.setRaw(-0.40, 0);
+    if(m_gyro.getRoll() > 2.45) {
+      m_DrivetrainSubsystem.setRaw(-0.427, 0);
     }
 
     else if (m_gyro.getRoll() > 1) {
       m_DrivetrainSubsystem.setRaw( -0.1, 0);
     }
 
-    else if (m_gyro.getRoll() < -2.3) {
-      m_DrivetrainSubsystem.setRaw(0.40, 0);
+    else if (m_gyro.getRoll() < -2.45) {
+      m_DrivetrainSubsystem.setRaw(0.427, 0);
     }
 
     else if (m_gyro.getRoll() < -1.25) {
