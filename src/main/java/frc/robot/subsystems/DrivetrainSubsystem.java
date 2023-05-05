@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 // import edu.wpi.first.wpilibj.examples.ramsetecommand.Constants.DriveConstants;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -22,6 +23,35 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private final WPI_VictorSPX rightLead; 
   private final WPI_VictorSPX leftFollower;
   private final WPI_VictorSPX rightFollower;
+
+  Encoder encoderLeft = new Encoder(0,1, false, Encoder.EncodingType.k2X);
+  Encoder encoderRight = new Encoder(2,3, false, Encoder.EncodingType.k2X);
+
+  private double encoderLeftDistance(){
+    return encoderLeft.getDistance();
+  }
+
+  private double encoderRightDistance(){
+    return encoderRight.getDistance();
+  }
+
+  private double encoderLeftRate(){
+    return encoderLeft.getRate();
+  }
+
+  private double encoderRightRate(){
+    return encoderRight.getRate();
+  }
+
+  private boolean encoderLeftDirection(){
+    return encoderLeft.getDirection();
+  }
+
+  private boolean encoderRightDirection(){
+    return encoderRight.getDirection();
+  }
+
+  
 
 
 
@@ -46,6 +76,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
   WPI_VictorSPX rightFollow = new WPI_VictorSPX(Constants.DrivetrainConstants.rightBackCANID);
 
   public DrivetrainSubsystem() {
+    encoderLeft.setDistancePerPulse(4.0/256.0);
+
+    // Configures the encoder to consider itself stopped after .1 seconds
+    //Later
+
+    // Configures the encoder to consider itself stopped when its rate is below 10
+    encoderLeft.setMinRate(10);
+    encoderRight.setMinRate(10);
+
+    // Configures an encoder to average its period measurement over 5 samples
+    // Can be between 1 and 127 samples
+    encoderLeft.setSamplesToAverage(5);
+    encoderRight.setSamplesToAverage(5);
 
     leftLead = new WPI_VictorSPX(8);
     rightLead = new WPI_VictorSPX(6);
@@ -99,6 +142,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Left encoder distance", encoderLeftDistance());
+    SmartDashboard.putNumber("Right encoder distance", encoderRightDistance());
+    SmartDashboard.putNumber("Left encoder rate", encoderLeftRate());
+    SmartDashboard.putNumber("Right encoder rate", encoderRightRate());
+    SmartDashboard.putBoolean("Left encoder rate", encoderLeftDirection());
+    SmartDashboard.putBoolean("Right encoder rate", encoderRightDirection());
   }
   
 }

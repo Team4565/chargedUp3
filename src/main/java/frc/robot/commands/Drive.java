@@ -22,7 +22,7 @@ public class Drive extends CommandBase {
   
   public Drive(DrivetrainSubsystem drivetrain, double speed) {
     m_drivetrain = drivetrain;
-    speedForRobot = speed;
+    speed = speedForRobot;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
