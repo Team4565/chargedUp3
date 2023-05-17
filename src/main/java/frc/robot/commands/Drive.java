@@ -33,6 +33,7 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_drivetrain.setRaw(speedForRobot);
   }
 
   // Called once the command ends or is interrupted.

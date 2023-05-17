@@ -1,6 +1,7 @@
 {
   "MainWindow": {
     "GLOBAL": {
+      "fps": "120",
       "height": "705",
       "maximized": "1",
       "style": "0",
@@ -18,12 +19,12 @@
     },
     "###Generator": {
       "Collapsed": "0",
-      "Pos": "6,23",
+      "Pos": "5,28",
       "Size": "310,300"
     },
     "###Logger": {
       "Collapsed": "0",
-      "Pos": "6,334",
+      "Pos": "7,335",
       "Size": "310,358"
     },
     "###Program Log": {
@@ -43,7 +44,7 @@
     },
     "Deploy Status": {
       "Collapsed": "0",
-      "Pos": "320,72",
+      "Pos": "332,75",
       "Size": "683,564"
     },
     "Diagnostic Plots": {

@@ -140,6 +140,12 @@ public final class Autos {
     return group;
   }  
 
+  public static CommandBase doNothing(DrivetrainSubsystem drivetrain) {
+    SequentialCommandGroup group = new SequentialCommandGroup();
+    return group;
+  }
+
+  
   public static CommandBase gyro(GyroSubsystem m_gyro, DrivetrainSubsystem drivetrain) {
     SequentialCommandGroup group = new SequentialCommandGroup(
       new Balance(m_gyro, drivetrain)

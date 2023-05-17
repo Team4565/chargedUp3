@@ -1,0 +1,52 @@
+{
+  "counts per rotation": 1.0,
+  "encoder type": "roboRIO quadrature",
+  "encoding": true,
+  "gearing denominator": 1.0,
+  "gearing numerator": 10.71,
+  "gyro": "NavX",
+  "gyro ctor": "SPI (MXP)",
+  "is drivetrain": false,
+  "motor controllers": [
+    "VictorSPX",
+    "VictorSPX",
+    "VictorSPX",
+    "VictorSPX"
+  ],
+  "number of samples per average": 1,
+  "primary encoder inverted": false,
+  "primary encoder ports": [
+    0,
+    2
+  ],
+  "primary motor ports": [
+    6,
+    7,
+    8,
+    9
+  ],
+  "primary motors inverted": [
+    false,
+    true,
+    true,
+    false
+  ],
+  "secondary encoder inverted": false,
+  "secondary encoder ports": [
+    1,
+    3
+  ],
+  "secondary motor ports": [
+    9,
+    6,
+    5,
+    7
+  ],
+  "secondary motors inverted": [
+    false,
+    false,
+    false,
+    false
+  ],
+  "velocity measurement period": 100
+}

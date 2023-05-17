@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.simulation.EncoderSim;
 
 public class DrivetrainSubsystem extends SubsystemBase {
   /** Creates a new DrivetrainSubsystem. */
@@ -24,8 +25,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private final WPI_VictorSPX leftFollower;
   private final WPI_VictorSPX rightFollower;
 
-  Encoder encoderLeft = new Encoder(0,1, false, Encoder.EncodingType.k2X);
-  Encoder encoderRight = new Encoder(2,3, false, Encoder.EncodingType.k2X);
+  private final Encoder encoderLeft = new Encoder(0,1, false, Encoder.EncodingType.k2X);
+  private final Encoder encoderRight = new Encoder(2,3, false, Encoder.EncodingType.k2X);
+
+  private final EncoderSim m_leftEncoderSim = new EncoderSim(encoderLeft);
+  private final EncoderSim m_rightEncoderSim = new EncoderSim(encoderRight);
+
+
 
   private double encoderLeftDistance(){
     return encoderLeft.getDistance();
@@ -51,10 +57,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     return encoderRight.getDirection();
   }
 
-  
-
-
-
   private String driveMode;
 
   //private final Encoder m_leftEncoder =
@@ -63,20 +65,21 @@ public class DrivetrainSubsystem extends SubsystemBase {
       //DriveConstants.kLeftEncoderPorts[2],
       //DriveConstants.kLeftEncoderReversed);
 
-// The right-side drive encoder
-  //private final Encoder m_rightEncoder =
-  //new Encoder(
-    //  DriveConstants.kRightEncoderPorts[0],
-      //DriveConstants.kRightEncoderPorts[1],
-      //DriveConstants.kRightEncoderReversed);
+  // The right-side drive encoder
+    //private final Encoder m_rightEncoder =
+    //new Encoder(
+      //  DriveConstants.kRightEncoderPorts[0],
+        //DriveConstants.kRightEncoderPorts[1],
+        //DriveConstants.kRightEncoderReversed);
 
-  WPI_VictorSPX leftLeader = new WPI_VictorSPX(Constants.DrivetrainConstants.leftFrontCANID);
-  WPI_VictorSPX leftFollow = new WPI_VictorSPX(Constants.DrivetrainConstants.leftBackCANID);
-  WPI_VictorSPX rightLeader = new WPI_VictorSPX(Constants.DrivetrainConstants.rightFrontCANID);
-  WPI_VictorSPX rightFollow = new WPI_VictorSPX(Constants.DrivetrainConstants.rightBackCANID);
+  // WPI_VictorSPX leftLeader = new WPI_VictorSPX(Constants.DrivetrainConstants.leftFrontCANID);
+  // WPI_VictorSPX leftFollow = new WPI_VictorSPX(Constants.DrivetrainConstants.leftBackCANID);
+  // WPI_VictorSPX rightLeader = new WPI_VictorSPX(Constants.DrivetrainConstants.rightFrontCANID);
+  // WPI_VictorSPX rightFollow = new WPI_VictorSPX(Constants.DrivetrainConstants.rightBackCANID);
 
   public DrivetrainSubsystem() {
-    encoderLeft.setDistancePerPulse(4.0/256.0);
+    encoderLeft.setDistancePerPulse(0.05236);
+    encoderRight.setDistancePerPulse(0.05236);
 
     // Configures the encoder to consider itself stopped after .1 seconds
     //Later
@@ -146,8 +149,20 @@ public class DrivetrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Right encoder distance", encoderRightDistance());
     SmartDashboard.putNumber("Left encoder rate", encoderLeftRate());
     SmartDashboard.putNumber("Right encoder rate", encoderRightRate());
-    SmartDashboard.putBoolean("Left encoder rate", encoderLeftDirection());
-    SmartDashboard.putBoolean("Right encoder rate", encoderRightDirection());
+    SmartDashboard.putBoolean("Left encoder direction", encoderLeftDirection());
+    SmartDashboard.putBoolean("Right encoder direction", encoderRightDirection());
+  }
+
+  public void teleopInit() {
+    encoderLeft.reset();
+    encoderRight.reset();
   }
   
+  public void autonomousInit(){
+    encoderLeft.reset();
+    encoderRight.reset();
+  }
+
+  public void setRaw(double speedForRobot) {
+  }
 }

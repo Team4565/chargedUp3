@@ -1,13 +1,23 @@
 {
+  "canivore names": [
+    "rio",
+    "rio",
+    "rio",
+    "rio"
+  ],
   "counts per rotation": 1.0,
+  "encoder canivore name": "rio",
   "encoder type": "roboRIO quadrature",
-  "encoding": true,
+  "encoding": false,
   "gearing denominator": 1.0,
   "gearing numerator": 10.71,
-  "gyro": "NavX",
-  "gyro ctor": "SPI (MXP)",
-  "is drivetrain": true,
+  "gyro": "Analog Gyro",
+  "gyro canivore name": "rio",
+  "gyro ctor": "0",
+  "is drivetrain": false,
   "motor controllers": [
+    "VictorSPX",
+    "VictorSPX",
     "VictorSPX",
     "VictorSPX"
   ],
@@ -15,28 +25,36 @@
   "primary encoder inverted": false,
   "primary encoder ports": [
     0,
-    2
+    1
   ],
   "primary motor ports": [
+    6,
+    7,
     8,
-    7
+    9
   ],
   "primary motors inverted": [
+    false,
     true,
-    true
+    true,
+    false
   ],
   "secondary encoder inverted": false,
   "secondary encoder ports": [
-    1,
+    2,
     3
   ],
   "secondary motor ports": [
-    6,
-    9
+    2,
+    3,
+    5,
+    7
   ],
   "secondary motors inverted": [
     false,
+    false,
+    false,
     false
   ],
-  "velocity measurement period": 100
+  "velocity measurement period": 1
 }
