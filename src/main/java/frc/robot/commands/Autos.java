@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
+
 public final class Autos {
   /** Example static factory for an autonomous command. */
   public static CommandBase exampleAuto(ExampleSubsystem subsystem) {
@@ -103,8 +104,8 @@ public final class Autos {
 
   public static CommandBase driveForSecondsEight(DrivetrainSubsystem drivetrain) {
     SequentialCommandGroup group = new SequentialCommandGroup(
-      new DriveForTime(drivetrain, 3.5, -0.60)
-    ); // 3.5 seconds before not 15
+      new DriveForTime(drivetrain, 4, -0.60)
+    ); 
     return group;
   }
 
@@ -138,7 +139,20 @@ public final class Autos {
       new BalanceWithWeight(gyro, drivetrain)
     );
     return group;
-  }  
+  }
+  
+  public static CommandBase driveForSecondsTwelve(DrivetrainSubsystem drivetrain, GyroSubsystem gyro) {
+    SequentialCommandGroup group = new SequentialCommandGroup(
+      new DriveForTime(drivetrain, 4.3, -0.55),
+      new TurnForAngle(gyro, drivetrain, -60, -0.55),
+      new DriveForTime(drivetrain, 2, -0.55),
+      new TurnForAngle(gyro, drivetrain, -60, -0.55),
+      new DriveForTime(drivetrain, 1.5, -0.73),
+      new TurnForAngle(gyro, drivetrain, -60, -0.55)
+      
+    );
+    return group;
+  }
 
   public static CommandBase doNothing(DrivetrainSubsystem drivetrain) {
     SequentialCommandGroup group = new SequentialCommandGroup();
@@ -156,6 +170,15 @@ public final class Autos {
   public static CommandBase turn(DrivetrainSubsystem drivetrain, GyroSubsystem gyro) {
     return Commands.sequence(new TurnForAngle(gyro, drivetrain, 88, 0.55));
   }
+
+  public static CommandBase driveForSecondsThirteen(DrivetrainSubsystem drivetrain) {
+    SequentialCommandGroup group = new SequentialCommandGroup(
+      new DriveWithEncoders(drivetrain, -.5, 5)
+    );
+    return group;
+  }
+
+  
 
 
 /*public static CommandBase forwardsBackwardsBalance(DrivetrainSubsystem drivetrain, GyroSubsystem gyro){

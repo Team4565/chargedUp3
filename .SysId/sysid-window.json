@@ -14,18 +14,18 @@
   "Window": {
     "###Analyzer": {
       "Collapsed": "0",
-      "Pos": "320,25",
+      "Pos": "315,32",
       "Size": "360,550"
     },
     "###Generator": {
       "Collapsed": "0",
-      "Pos": "5,28",
+      "Pos": "2,27",
       "Size": "310,300"
     },
     "###Logger": {
       "Collapsed": "0",
-      "Pos": "7,335",
-      "Size": "310,358"
+      "Pos": "3,335",
+      "Size": "309,358"
     },
     "###Program Log": {
       "Collapsed": "0",
@@ -44,7 +44,7 @@
     },
     "Deploy Status": {
       "Collapsed": "0",
-      "Pos": "332,75",
+      "Pos": "332,112",
       "Size": "683,564"
     },
     "Diagnostic Plots": {

@@ -72,6 +72,13 @@ public class RobotContainer {
   private final Command m_driveForSecondsEleven = 
   Autos.driveForSecondsEleven(m_drivetrainSubsystem, m_gyroSubsystem);
 
+  private final Command m_driveForSecondsTwelve = 
+  Autos.driveForSecondsTwelve(m_drivetrainSubsystem, m_gyroSubsystem);
+
+  private final Command m_driveForSecondsThirteen = 
+  Autos.driveForSecondsThirteen(m_drivetrainSubsystem);
+
+
   private final Command m_doNothing = 
   Autos.doNothing(m_drivetrainSubsystem);
   
@@ -116,6 +123,8 @@ public class RobotContainer {
     m_chooser.addOption("Auto Set 9 (Backwards) - Scoring", m_driveForSecondsNine);
     m_chooser.addOption("Auto Set 10 (Same as Set 3 but w/weight) - Charging Station + Mobility + Scoring", m_driveForSecondsTen);
     m_chooser.addOption("Auto Set 11 (Same as Set 1 but w/weight) - Charging Station + Mobility", m_driveForSecondsEleven);
+    m_chooser.addOption("*Testing* Auto Set 12 (Same as Set 1) Charging Station + Mobility", m_driveForSecondsTwelve);
+    m_chooser.addOption("*Testing* Auto Set 13 (Forwards)", m_driveForSecondsThirteen);
     m_chooser.setDefaultOption("None", m_doNothing);
     //m_chooser.setDefaultOption("None", m_gyro);
     SmartDashboard.putData(m_chooser);
@@ -136,7 +145,8 @@ public class RobotContainer {
     new JoystickButton(m_driverController, XboxController.Button.kB.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "fast"));
     new JoystickButton(m_driverController, XboxController.Button.kX.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "normal"));
     new JoystickButton(m_driverController, XboxController.Button.kA.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "creep speed (slow)"));
-  }
+    new JoystickButton(m_driverController, XboxController.Button.kStart.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "no speed"));
+  } 
 
   /* 
   creep speed is button 1 

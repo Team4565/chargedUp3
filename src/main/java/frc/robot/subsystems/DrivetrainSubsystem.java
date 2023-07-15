@@ -4,14 +4,20 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.Encoder;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.kauailabs.navx.frc.AHRS;
+
 // import edu.wpi.first.wpilibj.examples.ramsetecommand.Constants.DriveConstants;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
+import frc.robot.subsystems.GyroSubsystem;
 
 public class DrivetrainSubsystem extends SubsystemBase {
   /** Creates a new DrivetrainSubsystem. */
@@ -30,6 +36,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   private final EncoderSim m_leftEncoderSim = new EncoderSim(encoderLeft);
   private final EncoderSim m_rightEncoderSim = new EncoderSim(encoderRight);
+
+  public final static Gyro navX = new AHRS(SPI.Port.kMXP);
+  private final DifferentialDriveOdometry m_odometry; 
 
 
 
@@ -78,8 +87,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
   // WPI_VictorSPX rightFollow = new WPI_VictorSPX(Constants.DrivetrainConstants.rightBackCANID);
 
   public DrivetrainSubsystem() {
-    encoderLeft.setDistancePerPulse(0.05236);
-    encoderRight.setDistancePerPulse(0.05236);
+    
+    m_odometry = new DifferentialDriveOdometry(navX.getRotation2d(), 0, 0);
+    encoderLeft.setDistancePerPulse(1./256.);
+    encoderRight.setDistancePerPulse(1./256.);
 
     // Configures the encoder to consider itself stopped after .1 seconds
     //Later
@@ -97,6 +108,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     rightLead = new WPI_VictorSPX(6);
     leftFollower = new WPI_VictorSPX(7);
     rightFollower = new WPI_VictorSPX(9);
+
+
 
     leftLead.setInverted(true);
     leftFollower.setInverted(true);
@@ -133,12 +146,20 @@ public class DrivetrainSubsystem extends SubsystemBase {
       case "creep speed (slow)":
         diffDrive.arcadeDrive(driveValue * 0.60 , turnValue * 0.60);
       break;
+
+      case "no speed":
+        diffDrive.arcadeDrive(driveValue * 0 , turnValue * 0);
+      break;
     }
 
   }
 
   public void setRaw(double driveValue, double turnValue){
     diffDrive.arcadeDrive(driveValue, turnValue);
+  }
+
+  public static double getHeading (){
+    return navX.getRotation2d().getDegrees();
   }
 
 
@@ -151,6 +172,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Right encoder rate", encoderRightRate());
     SmartDashboard.putBoolean("Left encoder direction", encoderLeftDirection());
     SmartDashboard.putBoolean("Right encoder direction", encoderRightDirection());
+
+    SmartDashboard.putNumber("Left encoder value meters", encoderLeftDistance());
+    m_odometry.update(navX.getRotation2d(), encoderLeft.getDistance(), encoderRight.getDistance());
   }
 
   public void teleopInit() {
