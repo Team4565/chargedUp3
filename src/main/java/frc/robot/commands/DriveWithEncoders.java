@@ -5,27 +5,21 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ExampleSubsystem;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import edu.wpi.first.wpilibj.Encoder;
+import frc.robot.subsystems.EncodersSubsystem;
+
+
 
 /** An example command that uses an example subsystem. */
 public class DriveWithEncoders extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   public final DrivetrainSubsystem m_drivetrain;
-  private double speedForRobot;
+   // private final EncodersSubsystem m_encoderLeft;
+  private final EncodersSubsystem m_encoderRight;
   private double distanceForRobot;
 
-  private final Encoder encoderLeft = new Encoder(0,1, false, Encoder.EncodingType.k2X);
-  private final Encoder encoderRight = new Encoder(2,3, false, Encoder.EncodingType.k2X);
-  
-  private double encoderLeftDistance(){
-    return encoderLeft.getDistance();
-  }
-
-  private double encoderRightDistance(){
-    return encoderRight.getDistance();
-  }
 
   /**
    * Creates a new ExampleCommand.
@@ -33,12 +27,14 @@ public class DriveWithEncoders extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   
-  public DriveWithEncoders(DrivetrainSubsystem drivetrain, double speed, double distance) {
+  public DriveWithEncoders(DrivetrainSubsystem drivetrain, EncodersSubsystem encoderRightSubsystem, double distance) {
+    
+    m_encoderRight = encoderRightSubsystem;
     m_drivetrain = drivetrain;
-    speed = speedForRobot;
-    distance = distanceForRobot;
+    distanceForRobot = distance;
 
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(drivetrain);
   }
 
   // Called when the command is initially scheduled.
@@ -47,9 +43,15 @@ public class DriveWithEncoders extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    if (encoderLeft.getDistance() < distanceForRobot && encoderRight.getDistance() < distanceForRobot){
-      
+  public void execute() {}
+
+  public void autonomousPeriodic(){
+    if (m_encoderRight.encoderRightDistance() < distanceForRobot){
+      m_drivetrain.setRaw(-0.5, 0);
+    }
+    else {
+      m_drivetrain.setRaw(-0.0, 0);
+      m_encoderRight.reset();
     }
   }
 

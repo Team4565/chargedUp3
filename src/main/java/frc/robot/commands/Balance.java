@@ -25,11 +25,11 @@ public class Balance extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Balance (GyroSubsystem subsystem, DrivetrainSubsystem drivetrainSubsystem) {
-    m_gyro = subsystem;
+  public Balance (GyroSubsystem gyrosubsystem, DrivetrainSubsystem drivetrainSubsystem) {
+    m_gyro = gyrosubsystem;
     m_DrivetrainSubsystem = drivetrainSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem, drivetrainSubsystem);
+    addRequirements(gyrosubsystem, drivetrainSubsystem);
     // balancePID = new PIDController(.1, 0, 0);
     // balancePID.setSetpoint(0);
     // balancePID.setTolerance(0);
@@ -46,19 +46,19 @@ public class Balance extends CommandBase {
 
 
     if(m_gyro.getRoll() > 2.3) {
-      m_DrivetrainSubsystem.setRaw(-0.40, 0);
+      m_DrivetrainSubsystem.setRaw(-0.42, 0);
     }
 
-    else if (m_gyro.getRoll() > 1) {
+    else if (m_gyro.getRoll() > 1.2) {
       m_DrivetrainSubsystem.setRaw( -0.1, 0);
     }
 
     else if (m_gyro.getRoll() < -2.3) {
-      m_DrivetrainSubsystem.setRaw(0.40, 0);
+      m_DrivetrainSubsystem.setRaw(0.35, 0);
     }
 
-    else if (m_gyro.getRoll() < -1.25) {
-      m_DrivetrainSubsystem.setRaw(0.2, 0);
+    else if (m_gyro.getRoll() < -1.2) {
+      m_DrivetrainSubsystem.setRaw(0.15, 0);
     }
 
     else {

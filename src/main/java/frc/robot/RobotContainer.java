@@ -13,12 +13,23 @@ import frc.robot.commands.drivetotag;
 import frc.robot.commands.locateCube;
 import frc.robot.commands.targetFinding;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.EncodersSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+
+import java.io.IOException;
+import java.nio.file.Path;
+
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -37,7 +48,9 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
-  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem(); 
+  private final GyroSubsystem m_gyroSubsystem = new GyroSubsystem();
+  private final EncodersSubsystem m_encoderRightSubsystem = new EncodersSubsystem();
+  
 
   private final Command m_driveForSeconds = 
   Autos.driveForSeconds(m_drivetrainSubsystem, m_gyroSubsystem);
@@ -58,7 +71,7 @@ public class RobotContainer {
   Autos.driveForSecondsSix(m_drivetrainSubsystem, m_gyroSubsystem);
 
   private final Command m_driveForSecondsSeven = 
-  Autos.driveForSecondsSeven(m_drivetrainSubsystem);
+  Autos.driveForSecondsSeven(m_drivetrainSubsystem, m_gyroSubsystem);
 
   private final Command m_driveForSecondsEight = 
   Autos.driveForSecondsEight(m_drivetrainSubsystem);
@@ -76,8 +89,16 @@ public class RobotContainer {
   Autos.driveForSecondsTwelve(m_drivetrainSubsystem, m_gyroSubsystem);
 
   private final Command m_driveForSecondsThirteen = 
-  Autos.driveForSecondsThirteen(m_drivetrainSubsystem);
+  Autos.driveForSecondsThirteen(m_drivetrainSubsystem, m_gyroSubsystem);
 
+  private final Command m_driveForSecondsFourteen = 
+  Autos.driveForSecondsFourteen(m_drivetrainSubsystem, m_encoderRightSubsystem, m_gyroSubsystem);
+
+  private final Command m_driveForSecondsFifteen = 
+  Autos.driveForSecondsFifteen(m_drivetrainSubsystem, m_gyroSubsystem);
+
+  private final Command m_driveForSecondsSixteen = 
+  Autos.driveForSecondsSixteen(m_drivetrainSubsystem, m_gyroSubsystem);
 
   private final Command m_doNothing = 
   Autos.doNothing(m_drivetrainSubsystem);
@@ -91,8 +112,14 @@ public class RobotContainer {
   private final Command m_turn = 
   Autos.turn(m_drivetrainSubsystem, m_gyroSubsystem);
 
+  private final Command m_turnTwo = 
+  Autos.turnTwo(m_drivetrainSubsystem, m_gyroSubsystem);
+
   private final Command m_gyro =
   Autos.gyro(m_gyroSubsystem, m_drivetrainSubsystem);
+
+  private final Command m_test =
+  Autos.test(m_drivetrainSubsystem);
 
 
 
@@ -108,8 +135,9 @@ public class RobotContainer {
 
     //Moves Robot Using Joysticks
     m_drivetrainSubsystem.setDefaultCommand(new RunCommand(() ->
-     m_drivetrainSubsystem.teleopDrive(m_driverController.getLeftY(), m_driverController.getLeftX()), m_drivetrainSubsystem));
-    configureBindings();
+     m_drivetrainSubsystem.teleopDrive(m_driverController.getLeftY(), m_driverController.getRightX()), m_drivetrainSubsystem));
+    // m_drivetrainSubsystem.teleopDrive(m_driverController.getLeftY(), m_driverController.getLeftX()), m_drivetrainSubsystem));
+     configureBindings();
 
 
     m_chooser.addOption("Auto Set 1 (Forwards then left) - Charging Station + Mobility", m_driveForSeconds);
@@ -117,18 +145,41 @@ public class RobotContainer {
     m_chooser.addOption("Auto Set 3 (Forwards then back) - Charging Station + Mobility", m_driveForSecondsThree);
     m_chooser.addOption("Auto Set 4 (Same as Set 1) - Charging Station + Mobility + Scoring", m_driveForSecondsFour);
     m_chooser.addOption("Auto Set 5 (Same as Set 2) - Charging Station + Mobility + Scoring", m_driveForSecondsFive);
-    m_chooser.addOption("Auto Set 6 (Same as Set 3) - Charging Station + Mobility + Scoring", m_driveForSecondsSix);
+    m_chooser.addOption("*MIDDLE* Auto Set 6 (Same as Set 3) - Charging Station + Mobility + Scoring", m_driveForSecondsSix);
     m_chooser.addOption("Auto Set 7 (Backwards then forward) - Scoring + Mobility", m_driveForSecondsSeven);
+    m_chooser.addOption("Auto Set 7A Left Adjust (Backwards then forward) - Scoring + Mobility", m_driveForSecondsFifteen);
+    m_chooser.addOption("Auto Set 7B Right Adjust (Backwards then forward) - Scoring + Mobility", m_driveForSecondsSixteen);
     m_chooser.addOption("Auto Set 8 (Forwards) - Mobility", m_driveForSecondsEight);
     m_chooser.addOption("Auto Set 9 (Backwards) - Scoring", m_driveForSecondsNine);
     m_chooser.addOption("Auto Set 10 (Same as Set 3 but w/weight) - Charging Station + Mobility + Scoring", m_driveForSecondsTen);
     m_chooser.addOption("Auto Set 11 (Same as Set 1 but w/weight) - Charging Station + Mobility", m_driveForSecondsEleven);
-    m_chooser.addOption("*Testing* Auto Set 12 (Same as Set 1) Charging Station + Mobility", m_driveForSecondsTwelve);
-    m_chooser.addOption("*Testing* Auto Set 13 (Forwards)", m_driveForSecondsThirteen);
+    m_chooser.addOption("Turning 180 fast", m_turn);
+    m_chooser.addOption("Turning 180 fast v2", m_turnTwo);
+    m_chooser.addOption("Balancing", m_gyro);
+    m_chooser.addOption("Speed", m_test);
+    //m_chooser.addOption("scoring.path", object);
     m_chooser.setDefaultOption("None", m_doNothing);
-    //m_chooser.setDefaultOption("None", m_gyro);
+ // m_chooser.setDefaultOption("None", m_gyro);    
     SmartDashboard.putData(m_chooser);
   }
+
+  String filename = "paths/scoring.path.wpilib.json";
+
+    /** public Command loadPathplannerTrajectoryToRamseteCommand(String filename, boolean resetOdometry) {
+      Trajectory trajectory;
+      try {
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(filename);
+        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      } catch (IOException exception) {
+        DriverStation.reportError("Unable to open trajectory" + filename, exception.getStackTrace());
+        System.out.println("Unable to read from file" + filename);
+        return new InstantCommand();
+      }
+
+      // RamseteCommand ramseteCommand = new RamseteCommand(trajectory, m_drivetrainSubsystem::getPose, null, null, null, null, null, null);
+        
+      }
+    }
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the

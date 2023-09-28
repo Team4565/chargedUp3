@@ -31,40 +31,18 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private final WPI_VictorSPX leftFollower;
   private final WPI_VictorSPX rightFollower;
 
-  private final Encoder encoderLeft = new Encoder(0,1, false, Encoder.EncodingType.k2X);
-  private final Encoder encoderRight = new Encoder(2,3, false, Encoder.EncodingType.k2X);
+  
+  
 
-  private final EncoderSim m_leftEncoderSim = new EncoderSim(encoderLeft);
-  private final EncoderSim m_rightEncoderSim = new EncoderSim(encoderRight);
+  // private final EncoderSim m_leftEncoderSim = new EncoderSim(m_encoderLeft);
+  //private final EncoderSim m_rightEncoderSim = new EncoderSim(m_encoderRight);
 
   public final static Gyro navX = new AHRS(SPI.Port.kMXP);
   private final DifferentialDriveOdometry m_odometry; 
 
 
 
-  private double encoderLeftDistance(){
-    return encoderLeft.getDistance();
-  }
-
-  private double encoderRightDistance(){
-    return encoderRight.getDistance();
-  }
-
-  private double encoderLeftRate(){
-    return encoderLeft.getRate();
-  }
-
-  private double encoderRightRate(){
-    return encoderRight.getRate();
-  }
-
-  private boolean encoderLeftDirection(){
-    return encoderLeft.getDirection();
-  }
-
-  private boolean encoderRightDirection(){
-    return encoderRight.getDirection();
-  }
+  
 
   private String driveMode;
 
@@ -87,22 +65,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
   // WPI_VictorSPX rightFollow = new WPI_VictorSPX(Constants.DrivetrainConstants.rightBackCANID);
 
   public DrivetrainSubsystem() {
-    
+
     m_odometry = new DifferentialDriveOdometry(navX.getRotation2d(), 0, 0);
-    encoderLeft.setDistancePerPulse(1./256.);
-    encoderRight.setDistancePerPulse(1./256.);
 
-    // Configures the encoder to consider itself stopped after .1 seconds
-    //Later
-
-    // Configures the encoder to consider itself stopped when its rate is below 10
-    encoderLeft.setMinRate(10);
-    encoderRight.setMinRate(10);
-
-    // Configures an encoder to average its period measurement over 5 samples
-    // Can be between 1 and 127 samples
-    encoderLeft.setSamplesToAverage(5);
-    encoderRight.setSamplesToAverage(5);
+    
 
     leftLead = new WPI_VictorSPX(8);
     rightLead = new WPI_VictorSPX(6);
@@ -166,25 +132,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Left encoder distance", encoderLeftDistance());
-    SmartDashboard.putNumber("Right encoder distance", encoderRightDistance());
-    SmartDashboard.putNumber("Left encoder rate", encoderLeftRate());
-    SmartDashboard.putNumber("Right encoder rate", encoderRightRate());
-    SmartDashboard.putBoolean("Left encoder direction", encoderLeftDirection());
-    SmartDashboard.putBoolean("Right encoder direction", encoderRightDirection());
-
-    SmartDashboard.putNumber("Left encoder value meters", encoderLeftDistance());
-    m_odometry.update(navX.getRotation2d(), encoderLeft.getDistance(), encoderRight.getDistance());
-  }
-
-  public void teleopInit() {
-    encoderLeft.reset();
-    encoderRight.reset();
-  }
-  
-  public void autonomousInit(){
-    encoderLeft.reset();
-    encoderRight.reset();
+    
   }
 
   public void setRaw(double speedForRobot) {
