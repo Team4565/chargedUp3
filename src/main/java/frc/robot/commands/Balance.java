@@ -54,7 +54,7 @@ public class Balance extends CommandBase {
     }
 
     else if (m_gyro.getRoll() < -2.3) {
-      m_DrivetrainSubsystem.setRaw(0.35, 0);
+      m_DrivetrainSubsystem.setRaw(0.36, 0);
     }
 
     else if (m_gyro.getRoll() < -1.2) {
@@ -62,7 +62,7 @@ public class Balance extends CommandBase {
     }
 
     else {
-        m_DrivetrainSubsystem.setRaw(0, 0);
+      m_DrivetrainSubsystem.setRaw(0, 0);
     }
 
     //m_DrivetrainSubsystem.setRaw(balancePID.calculate(m_gyro.getRoll()), 0);

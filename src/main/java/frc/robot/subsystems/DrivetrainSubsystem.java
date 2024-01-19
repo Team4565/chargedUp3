@@ -12,6 +12,7 @@ import com.kauailabs.navx.frc.AHRS;
 // import edu.wpi.first.wpilibj.examples.ramsetecommand.Constants.DriveConstants;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -98,19 +99,52 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public void teleopDrive(double driveValue, double turnValue) {
     switch(driveMode) {
       case "max":
-        diffDrive.arcadeDrive(driveValue, turnValue);
+        diffDrive.arcadeDrive(driveValue * .80, turnValue * 0.75);
+        diffDrive.arcadeDrive(driveValue * .85, turnValue * 0.80);
+        diffDrive.arcadeDrive(driveValue * .90, turnValue * 0.85);
+        diffDrive.arcadeDrive(driveValue * .95, turnValue * 0.90);
+        diffDrive.arcadeDrive(driveValue, turnValue * 0.95);
       break;
 
-      case "fast":
+      /**case "fast":
         diffDrive.arcadeDrive(driveValue * 0.80, turnValue * 0.80);
-      break;
+      break; */
 
       case "normal":
-        diffDrive.arcadeDrive(driveValue * 0.70, turnValue * 0.70);
+        diffDrive.arcadeDrive(driveValue * 0.80, turnValue * 0.75);
       break;
 
       case "creep speed (slow)":
-        diffDrive.arcadeDrive(driveValue * 0.60 , turnValue * 0.60);
+        diffDrive.arcadeDrive(driveValue * 0.7 , turnValue * 0.65);
+      break;
+
+      case "no speed":
+        diffDrive.arcadeDrive(driveValue * 0 , turnValue * 0);
+      break;
+    }
+
+  }
+
+  public void teleopDriveTwo(double driveValue, double turnValue) {
+    switch(driveMode) {
+      case "max":
+        diffDrive.arcadeDrive(driveValue * .80, turnValue * 0.75);
+        diffDrive.arcadeDrive(driveValue * .85, turnValue * 0.80);
+        diffDrive.arcadeDrive(driveValue * .90, turnValue * 0.85);
+        diffDrive.arcadeDrive(driveValue * .95, turnValue * 0.90);
+        diffDrive.arcadeDrive(driveValue, turnValue * 0.95);
+      break;
+
+      /**case "fast":
+        diffDrive.arcadeDrive(driveValue * 0.80, turnValue * 0.80);
+      break; */
+
+      case "normal":
+        diffDrive.arcadeDrive(driveValue * 0.80, turnValue * 0.73);
+      break;
+
+      case "creep speed (slow)":
+        diffDrive.arcadeDrive(driveValue * 0.7 , turnValue * 0.63);
       break;
 
       case "no speed":
@@ -137,4 +171,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   public void setRaw(double speedForRobot) {
   }
+
+public void setDefaultCommand(RunCommand runCommand, Object teleopDrive, DrivetrainSubsystem m_drivetrainSubsystem) {
+}
+
+public void setDefaultCommandTwo(RunCommand runCommand, Object teleopDrive, DrivetrainSubsystem m_drivetrainSubsystem) {
+}
+
 }

@@ -18,6 +18,7 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kDriverControllerPortTwo = 1;
   }
     public static class DrivetrainConstants{
       public static final int leftFrontCANID= 8;

@@ -17,10 +17,8 @@ import frc.robot.subsystems.EncodersSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
-
 import java.io.IOException;
 import java.nio.file.Path;
-
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -121,11 +119,19 @@ public class RobotContainer {
   private final Command m_test =
   Autos.test(m_drivetrainSubsystem);
 
+  //private final Command m_scoring =
+  //loadPathplannerTrajectoryToRamseteCommand(); 
+  
+
 
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController m_driverController =
       new XboxController(OperatorConstants.kDriverControllerPort);
+  
+  private final XboxController m_driverControllerTwo = 
+      new XboxController(OperatorConstants.kDriverControllerPortTwo);
+
 
   public SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -135,10 +141,13 @@ public class RobotContainer {
 
     //Moves Robot Using Joysticks
     m_drivetrainSubsystem.setDefaultCommand(new RunCommand(() ->
-     m_drivetrainSubsystem.teleopDrive(m_driverController.getLeftY(), m_driverController.getRightX()), m_drivetrainSubsystem));
-    // m_drivetrainSubsystem.teleopDrive(m_driverController.getLeftY(), m_driverController.getLeftX()), m_drivetrainSubsystem));
-     configureBindings();
-
+    //m_drivetrainSubsystem.teleopDrive(m_driverController.getLeftY(), m_driverController.getRightX()), m_drivetrainSubsystem));
+    m_drivetrainSubsystem.teleopDrive(m_driverController.getLeftY(), m_driverController.getLeftX()), m_drivetrainSubsystem));
+    
+    //m_drivetrainSubsystem.setDefaultCommand(new RunCommand(() ->
+    //m_drivetrainSubsystem.teleopDrive(m_driverControllerTwo.getLeftY(), m_driverControllerTwo.getLeftX()), m_drivetrainSubsystem));
+    
+    configureBindings();
 
     m_chooser.addOption("Auto Set 1 (Forwards then left) - Charging Station + Mobility", m_driveForSeconds);
     m_chooser.addOption("Auto Set 2 (Forwards then right) - Charging Station + Mobility", m_driveForSecondsTwo);
@@ -157,29 +166,31 @@ public class RobotContainer {
     m_chooser.addOption("Turning 180 fast v2", m_turnTwo);
     m_chooser.addOption("Balancing", m_gyro);
     m_chooser.addOption("Speed", m_test);
-    //m_chooser.addOption("scoring.path", object);
+    //m_chooser.addOption("Scoring", m_scoring);
+  //m_chooser.addOption("scoring.path", object);
     m_chooser.setDefaultOption("None", m_doNothing);
- // m_chooser.setDefaultOption("None", m_gyro);    
+  //m_chooser.setDefaultOption("None", m_gyro);    
     SmartDashboard.putData(m_chooser);
+
   }
 
-  String filename = "paths/scoring.path.wpilib.json";
+  /**String trajectoryJSON = "paths/scoring.path.wpilib.json";
+  Trajectory trajectory = new Trajectory();
 
-    /** public Command loadPathplannerTrajectoryToRamseteCommand(String filename, boolean resetOdometry) {
-      Trajectory trajectory;
+  public Command loadPathplannerTrajectoryToRamseteCommand() {
       try {
-        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(filename);
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
         trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
       } catch (IOException exception) {
-        DriverStation.reportError("Unable to open trajectory" + filename, exception.getStackTrace());
-        System.out.println("Unable to read from file" + filename);
-        return new InstantCommand();
+        DriverStation.reportError("Unable to open trajectory" + trajectoryJSON, exception.getStackTrace());
+        System.out.println("Unable to read from file" + trajectoryJSON);
       }
+      return null;
 
       // RamseteCommand ramseteCommand = new RamseteCommand(trajectory, m_drivetrainSubsystem::getPose, null, null, null, null, null, null);
         
-      }
-    }
+   /}
+    
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -193,7 +204,7 @@ public class RobotContainer {
   private void configureBindings() {
     //Spins Motor if April Tags are Recognized for 20 Ticks
     new JoystickButton(m_driverController, XboxController.Button.kY.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "max"));
-    new JoystickButton(m_driverController, XboxController.Button.kB.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "fast"));
+    // new JoystickButton(m_driverController, XboxController.Button.kB.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "fast"));
     new JoystickButton(m_driverController, XboxController.Button.kX.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "normal"));
     new JoystickButton(m_driverController, XboxController.Button.kA.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "creep speed (slow)"));
     new JoystickButton(m_driverController, XboxController.Button.kStart.value).onTrue(new ChangeDriveMode(m_drivetrainSubsystem, "no speed"));

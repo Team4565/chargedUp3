@@ -22,11 +22,11 @@ public final class Autos {
 
   public static CommandBase driveForSeconds(DrivetrainSubsystem drivetrain, GyroSubsystem gyro) {
     SequentialCommandGroup group = new SequentialCommandGroup(
-      new DriveForTime(drivetrain, 4.3, -0.55),
-      new TurnForAngle(gyro, drivetrain, -60, -0.55),
-      new DriveForTime(drivetrain, 2, -0.55),
-      new TurnForAngle(gyro, drivetrain, -60, -0.55),
-      new DriveForTime(drivetrain, 1.5, -0.73),
+      new DriveForTime(drivetrain, 4, -0.6),
+      new TurnForAngle(gyro, drivetrain, -7, -0.6),
+      new DriveForTime(drivetrain, 1.5, -0.6),
+      new TurnForAngle(gyro, drivetrain, -7, -0.6),
+      new DriveForTime(drivetrain, 1.3, -0.7),
       new Balance(gyro, drivetrain)
     );
     return group;
@@ -35,10 +35,10 @@ public final class Autos {
   public static CommandBase driveForSecondsTwo(DrivetrainSubsystem drivetrain, GyroSubsystem gyro) {
     SequentialCommandGroup group = new SequentialCommandGroup(
       new DriveForTime(drivetrain, 5.5, -0.5),
-      new TurnForAngle(gyro, drivetrain, 75, 0.55),
-      new DriveForTime(drivetrain, 2.2, -0.55),
-      new TurnForAngle(gyro, drivetrain, 78, 0.55),
-      new DriveForTime(drivetrain, 1.45, -0.73),
+      new TurnForAngle(gyro, drivetrain, 70, 0.6),
+      new DriveForTime(drivetrain, 1.5, -0.6),
+      new TurnForAngle(gyro, drivetrain, 70, 0.6),
+      new DriveForTime(drivetrain, 1.3, -0.7),
       new Balance(gyro, drivetrain)
     );
     return group;
@@ -84,11 +84,10 @@ public final class Autos {
 
   public static CommandBase driveForSecondsSix(DrivetrainSubsystem drivetrain, GyroSubsystem gyro) {
     SequentialCommandGroup group = new SequentialCommandGroup(
-      new DriveForTime(drivetrain, 0.8, 0.60),
+      new DriveForTime(drivetrain, 0.8, 0.66),
       new DriveForTime(drivetrain, 0.15, -0.3),
-      new TurnForAngle(gyro, drivetrain, -3, -0.4),
-      new DriveForTime(drivetrain, 3.25, -0.65),
-      new TurnForAngle(gyro, drivetrain, 115, 0.7),
+      new DriveForTime(drivetrain, 3.05, -0.68),
+      new TurnForAngle(gyro, drivetrain, 115, 0.75),
       new DriveForTime(drivetrain, 1.3, -0.70),
       new Balance(gyro, drivetrain)
     );
@@ -215,21 +214,41 @@ public final class Autos {
 
   public static CommandBase turn(DrivetrainSubsystem drivetrain, GyroSubsystem gyro) {
     SequentialCommandGroup group = new SequentialCommandGroup(
-      new TurnForAngle(gyro, drivetrain, 5, 0.6)
+      new TurnForAngle(gyro, drivetrain, 115, 0.75)
+
+
+
     );
     return group;
   }
 
   public static CommandBase turnTwo(DrivetrainSubsystem drivetrain, GyroSubsystem gyro) {
     SequentialCommandGroup group = new SequentialCommandGroup(
-      new TurnForAngle(gyro, drivetrain, -5, -0.6)
+      new Balance(gyro, drivetrain),
+      new TurnForAngle(gyro, drivetrain,140, 0.7)
     );
     return group;
   }
 
   public static CommandBase test(DrivetrainSubsystem drivetrain) {
-    return Commands.sequence(new DriveForTime(drivetrain, 5, -0.1));
+    SequentialCommandGroup group = new SequentialCommandGroup(
+      new DriveForTime(drivetrain, 5, -0.6)
+    );
+    return group;
   }
+
+  /**String trajectoryJSONPath = "paths/scoring.wpilib.json";
+  Trajectory trajectory;
+
+  public static CommandBase trajectory(DrivetrainSubsystem drivetrain) {
+      try {
+        Path trajectoryJSONPath = 
+        Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSONPath); 
+        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      } catch (IOException e) {
+
+      }
+  } */
   
 
 
